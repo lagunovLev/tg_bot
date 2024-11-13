@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+        <label>Вы вошли как </label><b>{{ username }}</b>
+        <form action="{{ url_for('logout') }}">
+            <input type="submit" value="Выйти" />
+        </form>
+        <h1>Категории</h1>
+        <table>
+            {% for i in categorylist %}
+            <tr>
+                <td>{{ i["name"] }}</td>
+                <td>
+                    <a href="{{ url_for('delete_category') }}?name={{ i['name'] }}">
+                        <button type='submit'>Удалить</button>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <form action="{{ url_for('add_category') }}" method="post">
+            <input type="submit" value="Добавить" />
+            <input type="text" name="name">
+        </form>
+        <h2>Добавить место</h2>
+        <form action="{{ url_for('add_place') }}" method="post" enctype="multipart/form-data">
+            <label>Название</label><input type="text" name="name"><br>
+            <label>Описание</label><input type="text" name="description"><br>
+            <fieldset>
+                <legend>Категория</legend>
+                    {% for category in categorylist %}
+                        <input type="radio" name="category" value="{{ category['name'] }}"><label>{{ category["name"] }}</label><br>
+                    {% endfor %}
+            </fieldset>
+            <input type="file" name="photos" multiple><br>
+            <input type="submit" value="Добавить" />
+        </form>
+            {% for category in categorylist %}
+                <div>
+                    <h3>{{ category["name"] }}</h3>
+
+                </div>
+            {% endfor %}
+    </body>
+</html>
