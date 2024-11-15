@@ -77,7 +77,32 @@ def admin():
     cats_iter = categories.get_all({"_id": 0})
     cat = list(cats_iter)
     l = len(cat)
-    return render_template('admin.html', username=current_user.username, categorylength=l, categorylist=cat)
+    #places_list = {}
+    #for category in cat:
+    #    category_name = category['name']
+    #    category_id = category['_id']
+    #    places_cur = places.get_all(args={'category_id': category_id}).
+    #    places_list[category_name] = list(places_cur)
+    places_list = places.collect.aggregate([
+        {"$group": {
+            "_id": "$category_id",
+            "places": {"$push": {
+                "name": "$name",
+                "photos_id": "$photos_id",
+                "description": "$description",
+            }}
+        }},
+        {"$lookup": {
+            "from": "categories",
+            "localField": "_id",
+            "foreignField": "_id",
+            "as": "category",
+        }},
+        {"$unset": "_id"},
+    ])
+    #print(*list(places_list), sep="\n")
+
+    return render_template('admin.html', username=current_user.username, categorylength=l, categorylist=cat, places_list=places_list)
 
 
 @app.route('/add_category', methods=['POST'])

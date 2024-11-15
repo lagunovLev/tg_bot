@@ -39,10 +39,13 @@
             <input type="file" name="photos" multiple><br>
             <input type="submit" value="Добавить" />
         </form>
-            {% for category in categorylist %}
+            {% for category_with_places in places_list %}
                 <div>
-                    <h3>{{ category["name"] }}</h3>
-
+                    <h3>{{ category_with_places["category"][0]["name"] }}</h3>
+                    {% for place in category_with_places["places"] %}
+                        <p>{{ place["name"] }}</p>
+                        <p>{{ place["description"] }}</p>
+                    {% endfor %}
                 </div>
             {% endfor %}
     </body>
