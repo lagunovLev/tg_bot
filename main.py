@@ -1,20 +1,20 @@
 import os
 
-import gridfs
 from flask import Flask, render_template, redirect, url_for, request
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.utils import secure_filename
+from fs import fs
 
 import config
 from database import users, categories, places, db_client
 from app import app
 import api.categories
+import api.files
 
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 app_root = os.path.dirname(os.path.abspath(__file__))
-fs = gridfs.GridFS(db_client[config.db_name])
 
 
 class User:
@@ -84,12 +84,21 @@ def admin():
     #    places_cur = places.get_all(args={'category_id': category_id}).
     #    places_list[category_name] = list(places_cur)
     places_list = places.collect.aggregate([
+        {"$lookup": {
+            "from": "fs.files",
+            "localField": "photos_id",
+            "foreignField": "_id",
+            "as": "photos",
+        }},
+        {"$unset": "photos_id"},
         {"$group": {
             "_id": "$category_id",
             "places": {"$push": {
                 "name": "$name",
                 "photos_id": "$photos_id",
                 "description": "$description",
+                "photos": "$photos",
+                "_id": "$_id"
             }}
         }},
         {"$lookup": {
@@ -130,12 +139,48 @@ def add_place():
     return redirect(url_for('admin'))
 
 
+@app.route('/insert_place', methods=['POST'])
+@login_required
+def insert_place():
+    place_id = request.args.get('id')
+    name = request.form['name']
+    description = request.form['description']
+    category_name = request.form['category']
+    files = request.files.getlist('photos')
+    photos_id = []
+    for i in files:
+        contents = i.read()
+        filename = secure_filename(i.filename)
+        id = fs.put(contents, filename=filename)
+        photos_id.append(id)
+    places.update(place_id, name, photos_id, description, category_name)
+    return redirect(url_for('admin'))
+
+
 @app.route('/delete_category', methods=['GET'])
 @login_required
 def delete_category():
     name = request.args.get("name")
     categories.delete_by_name(name)
     return redirect(url_for('admin'))
+
+
+@app.route('/delete_place', methods=['GET'])
+@login_required
+def delete_place():
+    id = request.args.get("id")
+    places.delete_by_id(id)
+    return redirect(url_for('admin'))
+
+
+@app.route('/update_place', methods=['GET'])
+@login_required
+def update_place():
+    id = request.args.get("id")
+    place = places.get_by_id(id)
+    category_list = categories.get_all()
+    #print(list(category_list))
+    return render_template('update_place.html', place=place, category_list=list(category_list))
 
 
 if __name__ == '__main__':

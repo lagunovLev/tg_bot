@@ -1,3 +1,6 @@
+from flask import flash
+from bson.objectid import ObjectId
+
 import config
 from database import db_client
 from pymongo import collection
@@ -13,8 +16,16 @@ def add(name, photos_id, description, category_name):
                         "category_id": categories.find_by_name(category_name)["_id"]})
 
 
+def update(place_id, name, photos_id, description, category_name):
+    collect.replace_one({"_id": ObjectId(place_id)},
+                       {"name": name,
+                        "photos_id": photos_id,
+                        "description": description,
+                        "category_id": categories.find_by_name(category_name)["_id"]})
+
+
 def get_by_id(id: str):
-    return collect.find_one({"_id": id})
+    return collect.find_one({"_id": ObjectId(id)})
 
 
 def find_by_name(name: str):
@@ -31,5 +42,5 @@ def get_all(projection=None, args=None):
     return collect.find(args, projection)
 
 
-# def get_all_and_get_binary_files():
-#     return collect.
+def delete_by_id(id: str):
+    collect.delete_one({"_id": ObjectId(id)})
