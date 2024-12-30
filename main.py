@@ -10,6 +10,7 @@ from database import users, categories, places, db_client
 from app import app
 import api.categories
 import api.files
+import api.places
 
 login_manager = LoginManager()
 login_manager.init_app(app)
