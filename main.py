@@ -12,6 +12,8 @@ import api.categories
 import api.files
 import api.places
 import telegram.main
+import telebot
+from telegram.bot import bot
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -181,8 +183,14 @@ def update_place():
     id = request.args.get("id")
     place = places.get_by_id(id)
     category_list = categories.get_all()
-    #print(list(category_list))
     return render_template('update_place.html', place=place, category_list=list(category_list))
+
+
+@app.route("/" + config.secret_key, methods=['POST'])
+def webhook():
+    update = telebot.types.Update.de_json(request.stream.read().decode("utf-8"))
+    bot.process_new_events([update])
+    return 'ok', 200
 
 
 if __name__ == '__main__':
