@@ -132,6 +132,3 @@ def show_category_next():
 			bot.send_message(message.chat.id, welcome_string, reply_markup=main_keyboard)
 
 	return func
-
-
-bot.infinity_polling()
