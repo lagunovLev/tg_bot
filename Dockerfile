@@ -1,18 +1,11 @@
-# Set base image (host OS)
 FROM python:latest
 
-# Copy the content of the project directory to the working directory
+WORKDIR /app
+RUN pip install --upgrade pip
+COPY ./requirements.txt /app/requirements.txt
+RUN pip install -r requirements.txt
 COPY . /app
 
-# Set the working directory in the container
-WORKDIR /app
-
-# Install any dependencies
-RUN pip install -r requirements.txt
-
-# Specify the Flask environment port
-ENV PORT=5000
-
-EXPOSE 8080
-
-CMD ["gunicorn", "-b", "0.0.0.0:8080", "main"]
+#ENV PORT=5000
+#EXPOSE 8080
+#CMD ["gunicorn", "-b", "0.0.0.0:8080", "main"]
