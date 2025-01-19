@@ -1,6 +1,4 @@
-from flask import flash
 from bson.objectid import ObjectId
-
 import config
 from database import db_client
 from pymongo import collection
@@ -18,7 +16,7 @@ def add(name, photos_id, description, category_name):
 
 def update(place_id, name, photos_id, description, category_name):
     collect.replace_one({"_id": ObjectId(place_id)},
-                       {"name": name,
+                        {"name": name,
                         "photos_id": photos_id,
                         "description": description,
                         "category_id": categories.find_by_name(category_name)["_id"]})

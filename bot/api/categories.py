@@ -1,6 +1,5 @@
-from app import app
-from database import categories
-import json
+from bot.app import app
+from bot.database import categories
 
 
 @app.route('/api/categories', methods=['GET'])

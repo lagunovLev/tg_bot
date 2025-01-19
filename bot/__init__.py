@@ -1,17 +1,13 @@
 import os
 
-from flask import Flask, render_template, redirect, url_for, request
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from flask import render_template, redirect, url_for, request
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from werkzeug.utils import secure_filename
 from fs import fs
 
 import config
-from database import users, categories, places, db_client
+from database import users, categories, places
 from app import app
-import api.categories
-import api.files
-import api.places
-import telegram.main
 import telebot
 from telegram.bot import bot
 
@@ -194,4 +190,5 @@ def webhook():
 
 
 if __name__ == '__main__':
-    app.run()
+    print("App is running")
+    app.run(host="0.0.0.0", port=8080)
