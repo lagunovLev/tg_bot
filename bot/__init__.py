@@ -1,5 +1,6 @@
 import os
 
+import flask
 from flask import render_template, redirect, url_for, request
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from werkzeug.utils import secure_filename
@@ -189,6 +190,8 @@ def update_place():
 @app.route("/" + config.secret_key, methods=['POST'])
 def webhook():
     print("Processing updates")
+    flask.flash("Processing updates")
+    a = 0 / 0
     update = telebot.types.Update.de_json(request.stream.read().decode("utf-8"))
     bot.process_new_updates([update])
     return '!', 200
