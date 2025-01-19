@@ -188,6 +188,7 @@ def update_place():
 
 @app.route("/" + config.secret_key, methods=['POST'])
 def webhook():
+    print("Processing updates")
     update = telebot.types.Update.de_json(request.stream.read().decode("utf-8"))
     bot.process_new_updates([update])
     return '!', 200
