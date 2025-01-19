@@ -192,8 +192,8 @@ def webhook():
     print("Processing updates")
     flask.flash("Processing updates")
     print(request.stream.read().decode("utf-8"))
-    update = telebot.types.Update.de_json("")
-    bot.process_new_updates([update])
+    #update = telebot.types.Update.de_json("")
+    #bot.process_new_updates([update])
     return '!', 200
 
 
