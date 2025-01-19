@@ -4,6 +4,7 @@ from flask import render_template, redirect, url_for, request
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from werkzeug.utils import secure_filename
 from fs import fs
+import logging
 
 import config
 from database import users, categories, places
@@ -15,6 +16,9 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 app_root = os.path.dirname(os.path.abspath(__file__))
+
+logger = telebot.logger
+telebot.logger.setLevel(logging.INFO)
 
 
 class User:
@@ -186,7 +190,7 @@ def update_place():
 def webhook():
     update = telebot.types.Update.de_json(request.stream.read().decode("utf-8"))
     bot.process_new_updates([update])
-    return 'ok', 200
+    return '!', 200
 
 
 if __name__ == '__main__':
