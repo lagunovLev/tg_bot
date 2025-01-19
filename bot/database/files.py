@@ -1,6 +1,6 @@
 import gridfs
-import config
-from database import db_client
+from bot import config
+from bot.database import db_client
 
 fs = gridfs.GridFS(db_client[config.db_name])
 

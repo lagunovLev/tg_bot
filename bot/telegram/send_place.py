@@ -1,4 +1,4 @@
-from telegram.bot import bot
+from bot.telegram.bot import bot
 
 
 def send_place(chat_id, info, reply_markup):

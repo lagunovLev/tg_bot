@@ -1,12 +1,10 @@
-version: '3.8'
-
 services:
-  web:
-    build: ./services/web
-    command: python manage.py run -h 0.0.0.0
+  bot:
+    build: ./bot
+    #command: python manage.py run -h 0.0.0.0 # python manage.py run -h 0.0.0.0
     volumes:
-      - ./services/web/:/usr/src/app/
+      - ./bot/:/bot/
     ports:
       - 5001:5000
-    env_file:
-      - ./.env.dev
+    environment:
+      FLASK_APP: __init__.py

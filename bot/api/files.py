@@ -1,8 +1,5 @@
-from flask import render_template
-from app import app
-from database import files
-import json
-from fs import fs
+from bot.app import app
+from bot.fs import fs
 
 
 @app.route('/api/get-file/<name>')

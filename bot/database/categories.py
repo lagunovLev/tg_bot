@@ -1,5 +1,5 @@
-import config
-from database import db_client
+from bot import config
+from bot.database import db_client
 from pymongo import collection
 from bson.objectid import ObjectId
 

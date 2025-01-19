@@ -1,12 +1,9 @@
-import sys
-
-import telebot
 from telebot import types
-from telegram import util
-import database.categories as cat
-import database.places as places
-from telegram.send_place import send_place
-from telegram.bot import bot
+from bot.telegram import util
+import bot.database.categories as cat
+import bot.database.places as places
+from bot.telegram.send_place import send_place
+from bot.telegram.bot import bot
 
 
 main_keyboard = types.ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)

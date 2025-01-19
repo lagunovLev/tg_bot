@@ -1,8 +1,7 @@
 import json
 
-from flask import render_template
-from app import app
-from database import places
+from bot.app import app
+from bot.database import places
 from bson import json_util
 
 
