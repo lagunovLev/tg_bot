@@ -7,6 +7,6 @@ COPY ./requirements.txt /bot/requirements.txt
 RUN pip install -r requirements.txt
 COPY . /bot
 
-#ENV PORT=5000
-#EXPOSE 8080
+EXPOSE 8080
+CMD ["python", "__init__.py"]
 #CMD ["gunicorn", "-b", "0.0.0.0:8080", "main"]
