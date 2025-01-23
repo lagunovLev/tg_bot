@@ -191,12 +191,14 @@ def update_place():
 def webhook():
     print("Processing updates")
     flask.flash("Processing updates")
-    print(request.stream.read().decode("utf-8"))
-    #update = telebot.types.Update.de_json("")
-    #bot.process_new_updates([update])
+    update = telebot.types.Update.de_json("")
+    bot.process_new_updates([update])
     return '!', 200
 
 
 if __name__ == '__main__':
     print("App is running")
     app.run(host="0.0.0.0", port=8080)
+    #bot.polling(non_stop=True)
+    bot.remove_webhook()
+    bot.set_webhook(url=config.url + "/" + config.secret_key)
