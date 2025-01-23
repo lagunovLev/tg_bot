@@ -1,4 +1,5 @@
 import os
+import threading
 
 import flask
 from flask import render_template, redirect, url_for, request
@@ -200,6 +201,10 @@ def webhook():
 if __name__ == '__main__':
     print("App is running")
     app.run(host="0.0.0.0", port=8080)
-    #bot.polling(non_stop=True)
-    bot.remove_webhook()
-    bot.set_webhook(flask.url_for('webhook'))
+
+    th = threading.Thread(target=lambda: bot.polling(non_stop=True))
+    th.start()
+    th.join()
+
+    #bot.remove_webhook()
+    #bot.set_webhook(flask.url_for('webhook'))
