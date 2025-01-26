@@ -2,7 +2,7 @@ from . import util
 import logging
 
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, Update, InlineKeyboardButton, InlineKeyboardMarkup
-from bot.database import categories as cat
+from database import categories as cat
 from telegram.ext import (
     Application,
     CommandHandler,
