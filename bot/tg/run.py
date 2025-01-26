@@ -4,7 +4,7 @@ from bot.tg import *
 
 
 def run_bot():
-    application = Application.builder().token("7608142171:AAE39yOjyqB4Phq79DCCUxz67EWb5OqXnrs").build()
+    application = Application.builder().token("7608142171:AAGMY-exBpwKtxSIJZLIug2Oa-5YIfztLF8").build()
 
     conv_handler = ConversationHandler(
         entry_points=[CommandHandler("start", start)],
