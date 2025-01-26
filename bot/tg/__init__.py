@@ -12,7 +12,7 @@ from telegram.ext import (
     filters,
 )
 
-from bot.database import places
+from database import places
 
 # Enable logging
 logging.basicConfig(
