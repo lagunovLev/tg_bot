@@ -1,7 +1,7 @@
 FROM python:latest
 
 WORKDIR /bot
-ENV PYTHONPATH="${PYTHONPATH}:/bot"
+ENV PYTHONPATH="${PYTHONPATH}:/"
 RUN pip install --upgrade pip
 COPY ./requirements.txt /bot/requirements.txt
 RUN pip install -r requirements.txt

@@ -2,7 +2,7 @@ from . import util
 import logging
 
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, Update, InlineKeyboardButton, InlineKeyboardMarkup
-from database import categories as cat
+from bot.database import categories as cat
 from telegram.ext import (
     Application,
     CommandHandler,
@@ -12,7 +12,7 @@ from telegram.ext import (
     filters,
 )
 
-from database import places
+from bot.database import places
 
 # Enable logging
 logging.basicConfig(
