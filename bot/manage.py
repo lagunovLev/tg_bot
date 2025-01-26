@@ -1,5 +1,5 @@
 from flask.cli import FlaskGroup
-from __init__ import app
+from main import app
 
 
 cli = FlaskGroup(app)
