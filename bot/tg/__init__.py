@@ -9,7 +9,7 @@ from telegram.ext import (
     ContextTypes,
     ConversationHandler,
     MessageHandler,
-    filters,
+    filters, CallbackQueryHandler,
 )
 
 from bot.database import places
@@ -122,3 +122,38 @@ async def show_in_category(update: Update, context: ContextTypes.DEFAULT_TYPE, d
     #context.user_data["results_counter"] = 0
 
 
+def configure_application() -> Application:
+    application = Application.builder().token("7608142171:AAGMY-exBpwKtxSIJZLIug2Oa-5YIfztLF8").build()
+
+    conv_handler = ConversationHandler(
+        entry_points=[CommandHandler("start", start)],
+        states={
+            MAIN: [
+                MessageHandler(
+                    filters.ALL, main_menu
+                ),
+            ],
+            SEARCHING: [
+                MessageHandler(
+                    filters.ALL, searching
+                )
+            ],
+            NEXT_OR_EXIT: [
+                MessageHandler(
+                    filters.ALL,
+                    next_or_exit,
+                )
+            ],
+            CHOOSING_CATEGORY: [
+                MessageHandler(
+                    filters.ALL,
+                    choosing_category,
+                )
+            ]
+        },
+        fallbacks=[],
+    )
+
+    application.add_handler(conv_handler)
+    application.add_handler(CallbackQueryHandler(button_handler))
+    return application
