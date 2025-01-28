@@ -1,3 +1,5 @@
+import bson
+
 from . import util
 import logging
 
@@ -43,8 +45,9 @@ welcome_string = "Здесь вы можете узнать о достопри�
 
 async def send_place(update: Update, context: ContextTypes.DEFAULT_TYPE, reply_markup):
     info = context.user_data["results"][context.user_data["results_counter"]]
-    await update.message.reply_text(
-        f"{info["name"]}\n{info["description"]}",
+    await context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text=f"{info["name"]}\n{info["description"]}",
         reply_markup=reply_markup,
     )
 
@@ -72,15 +75,7 @@ async def searching(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         return MAIN
     context.user_data["results"] = list(places.collect.find({"$text": {"$search": update.message.text}}))
     context.user_data["results_counter"] = 0
-    if not context.user_data["results"]:
-        await update.message.reply_text("Ничего не нашлось", reply_markup=main_keyboard)
-        return MAIN
-    if len(context.user_data["results"]) == 1:
-        await send_place(update, context, main_keyboard)
-        return MAIN
-    await send_place(update, context, next_or_exit_keyboard)
-    context.user_data["results_counter"] += 1
-    return NEXT_OR_EXIT
+    return await return_to_main_or_next(update, context)
 
 
 async def choosing_category(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -89,6 +84,18 @@ async def choosing_category(update: Update, context: ContextTypes.DEFAULT_TYPE):
     reply_markup = InlineKeyboardMarkup(keyboard)
 
     await update.message.reply_text("Выберите категорию:", reply_markup=reply_markup)
+
+
+async def return_to_main_or_next(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not context.user_data["results"]:
+        await context.bot.send_message(chat_id=update.effective_chat.id, text="Ничего не нашлось", reply_markup=main_keyboard)
+        return MAIN
+    if len(context.user_data["results"]) == 1:
+        await send_place(update, context, main_keyboard)
+        return MAIN
+    await send_place(update, context, next_or_exit_keyboard)
+    context.user_data["results_counter"] += 1
+    return NEXT_OR_EXIT
 
 
 async def next_or_exit(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
@@ -117,9 +124,14 @@ async def show_in_category(update: Update, context: ContextTypes.DEFAULT_TYPE, d
     category_id = data[1]
     category = cat.get_by_id(category_id)
     await context.bot.send_message(chat_id=update.effective_chat.id, text=f"Места категории {category['name']}:", reply_markup=next_or_exit_keyboard)
-    # await update.message.reply_text(f"Места категории {category['name']}:", reply_markup=next_or_exit_keyboard)
-    #context.user_data["results"] =
-    #context.user_data["results_counter"] = 0
+    res = list(places.collect.aggregate([
+        {"$match": {
+            "category_id": bson.ObjectId(category_id),
+        }},
+    ]))
+    context.user_data["results"] = res
+    context.user_data["results_counter"] = 0
+    return await return_to_main_or_next(update, context)
 
 
 def configure_application() -> Application:
