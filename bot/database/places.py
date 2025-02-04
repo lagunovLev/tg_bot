@@ -11,15 +11,27 @@ def add(name, photos_id, description, category_name):
     collect.insert_one({"name": name,
                         "photos_id": photos_id,
                         "description": description,
-                        "category_id": categories.find_by_name(category_name)["_id"]})
+                        "category_id": categories.find_by_name(category_name)["_id"],
+                        "likes_users_id": [],
+                        "dislikes_users_id": [],
+                        "likes": 0,
+                        "dislikes": 0})
 
 
 def update(place_id, name, photos_id, description, category_name):
-    collect.replace_one({"_id": ObjectId(place_id)},
-                        {"name": name,
+    collect.update_one({"_id": ObjectId(place_id)},
+                       {"name": name,
                         "photos_id": photos_id,
                         "description": description,
                         "category_id": categories.find_by_name(category_name)["_id"]})
+
+
+def give_like(place_id):
+    collect.updateOne({"_id": ObjectId(place_id)}, {"$inc": {"likes": 1}})
+
+
+def give_dislike(place_id):
+    collect.updateOne({"_id": ObjectId(place_id)}, {"$inc": {"dislikes": 1}})
 
 
 def get_by_id(id: str):

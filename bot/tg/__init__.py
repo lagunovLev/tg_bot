@@ -4,7 +4,7 @@ from . import util
 import logging
 
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, Update, InlineKeyboardButton, InlineKeyboardMarkup
-from bot.database import categories as cat
+from bot.database import categories as cat, db_client
 from telegram.ext import (
     Application,
     CommandHandler,
@@ -15,6 +15,7 @@ from telegram.ext import (
 )
 
 from bot.database import places
+from bot import config
 
 # Enable logging
 logging.basicConfig(
@@ -56,6 +57,11 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     await update.message.reply_text(
         welcome_string,
         reply_markup=main_keyboard,
+    )
+    db_client[config.db_name]["tg_users"].update_one(
+        {"chat_id": update.effective_chat.id},
+        {"$setOnInsert": {"chat_id": update.effective_chat.id}},
+        True
     )
     return MAIN
 

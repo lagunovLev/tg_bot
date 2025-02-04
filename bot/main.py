@@ -182,15 +182,3 @@ def update_place():
     place = places.get_by_id(id)
     category_list = categories.get_all()
     return render_template('update_place.html', place=place, category_list=list(category_list))
-
-
-#@app.route("/" + config.secret_key, methods=['POST'])
-#def webhook():
-#    print("Processing updates")
-#    flask.flash("Processing updates")
-#    json_string = flask.request.get_data().decode('utf-8')
-#    update = telebot.types.Update.de_json(json_string)
-#    bot.process_new_updates([update])
-#    return '!', 200
-
-

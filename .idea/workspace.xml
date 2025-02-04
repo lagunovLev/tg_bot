@@ -7,10 +7,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="64397f68-1492-462b-943b-feb315d32b89" name="Changes" comment="polling thread">
+    <list default="true" id="64397f68-1492-462b-943b-feb315d32b89" name="Changes" comment="categories">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot/telegram/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/telegram/bot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/database/places.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/database/places.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/tg/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/tg/__init__.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,18 +45,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "DefaultHtmlFileTemplate": "HTML File",
-    "Python.__init__.executor": "Run",
-    "Python.app.executor": "Run",
-    "Python.main.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "production",
-    "run.code.analysis.last.selected.profile": "aDefault"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;Python.__init__.executor&quot;: &quot;Run&quot;,
+    &quot;Python.app.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;production&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;aDefault&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\projects\python\flask-bot2\bot" />
@@ -269,7 +270,79 @@
       <option name="project" value="LOCAL" />
       <updated>1737649095093</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="rewrite">
+      <option name="closed" value="true" />
+      <created>1737901273333</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1737901273333</updated>
+    </task>
+    <task id="LOCAL-00023" summary="rewrite">
+      <option name="closed" value="true" />
+      <created>1737901708659</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1737901708659</updated>
+    </task>
+    <task id="LOCAL-00024" summary="rewrite">
+      <option name="closed" value="true" />
+      <created>1737901845699</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1737901845699</updated>
+    </task>
+    <task id="LOCAL-00025" summary="rewrite">
+      <option name="closed" value="true" />
+      <created>1737901967529</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1737901967529</updated>
+    </task>
+    <task id="LOCAL-00026" summary="rewrite">
+      <option name="closed" value="true" />
+      <created>1737902121874</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1737902121874</updated>
+    </task>
+    <task id="LOCAL-00027" summary="rewrite">
+      <option name="closed" value="true" />
+      <created>1737902459888</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1737902459888</updated>
+    </task>
+    <task id="LOCAL-00028" summary="webhook">
+      <option name="closed" value="true" />
+      <created>1738084900217</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1738084900217</updated>
+    </task>
+    <task id="LOCAL-00029" summary="webhook">
+      <option name="closed" value="true" />
+      <created>1738085145390</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1738085145390</updated>
+    </task>
+    <task id="LOCAL-00030" summary="categories">
+      <option name="closed" value="true" />
+      <created>1738088944451</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1738088944451</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -294,12 +367,14 @@
     <MESSAGE value="отображение добавленных мест" />
     <MESSAGE value="crud" />
     <MESSAGE value="small" />
-    <MESSAGE value="webhook" />
     <MESSAGE value="url" />
     <MESSAGE value="wsgi" />
     <MESSAGE value="working" />
     <MESSAGE value="letsgo" />
     <MESSAGE value="polling thread" />
-    <option name="LAST_COMMIT_MESSAGE" value="polling thread" />
+    <MESSAGE value="rewrite" />
+    <MESSAGE value="webhook" />
+    <MESSAGE value="categories" />
+    <option name="LAST_COMMIT_MESSAGE" value="categories" />
   </component>
 </project>
