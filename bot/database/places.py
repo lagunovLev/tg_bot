@@ -26,12 +26,118 @@ def update(place_id, name, photos_id, description, category_name):
                         "category_id": categories.find_by_name(category_name)["_id"]})
 
 
-def give_like(place_id):
-    collect.updateOne({"_id": ObjectId(place_id)}, {"$inc": {"likes": 1}})
+def give_like(place_id, chat_id):
+    # Если лайка нет:
+    #   если дизлайка нет:
+    #       поставить лайк
+    #   иначе:
+    #       поставить лайк
+    #       убрать дизлайк
+    # иначе:
+    #   убрать лайк
+    # print(place_id, chat_id)
+
+    place = collect.find_one({"_id": ObjectId(place_id)})
+    if chat_id in place["likes_users_id"]:
+        collect.update_one(
+            {"_id": ObjectId(place_id)},
+            {
+                "$inc": {"likes": -1},
+                "$pull": {"likes_users_id": chat_id},
+            },
+            upsert=True)
+    else:
+        if chat_id in place["dislikes_users_id"]:
+            collect.update_one(
+                {"_id": ObjectId(place_id)},
+                {
+                    "$inc": {"dislikes": -1},
+                    "$pull": {"dislikes_users_id": chat_id},
+                },
+                upsert=True)
+        collect.update_one(
+            {"_id": ObjectId(place_id)},
+            {
+                "$addToSet": {"likes_users_id": chat_id},
+                "$inc": {"likes": 1},
+            },
+            upsert=True)
+
+    # collect.update_one(
+    #     {"_id": ObjectId(place_id)},
+    #     {
+    #         "$cond": {
+    #             "if": {"likes_users_id": {"$elemMatch": {"$eq": chat_id}}},
+    #             "then": {
+    #                 "$inc": {"likes": -1},
+    #                 "$pull": {"likes_users_id": chat_id},
+    #             },
+    #             "else": {
+    #                 "$cond": {
+    #                     "if": {"dislikes_users_id": {"$elemMatch": {"$eq": chat_id}}},
+    #                     "then": {
+    #                         "$inc": {"dislikes": -1},
+    #                         "$pull": {"dislikes_users_id": chat_id},
+    #                     },
+    #                 },
+    #                 "$addToSet": {"likes_users_id": chat_id},
+    #                 "$inc": {"likes": 1},
+    #             }
+    #         },
+    #     },
+    #     upsert=True)
 
 
-def give_dislike(place_id):
-    collect.updateOne({"_id": ObjectId(place_id)}, {"$inc": {"dislikes": 1}})
+def give_dislike(place_id, chat_id):
+    place = collect.find_one({"_id": ObjectId(place_id)})
+    if chat_id in place["dislikes_users_id"]:
+        collect.update_one(
+            {"_id": ObjectId(place_id)},
+            {
+                "$inc": {"dislikes": -1},
+                "$pull": {"dislikes_users_id": chat_id},
+            },
+            upsert=True)
+    else:
+        if chat_id in place["likes_users_id"]:
+            collect.update_one(
+                {"_id": ObjectId(place_id)},
+                {
+                    "$inc": {"likes": -1},
+                    "$pull": {"likes_users_id": chat_id},
+                },
+                upsert=True)
+        collect.update_one(
+            {"_id": ObjectId(place_id)},
+            {
+                "$addToSet": {"dislikes_users_id": chat_id},
+                "$inc": {"dislikes": 1},
+            },
+            upsert=True)
+    #print(place_id, chat_id)
+    #collect.update_one(
+    #    {"_id": ObjectId(place_id)},
+    #    {
+    #        "$cond": {
+    #            "if": {"dislikes_users_id": {"$elemMatch": {"$eq": chat_id}}},
+    #            "then": {
+    #                "$inc": {"dislikes": -1},
+    #                "$pull": {"dislikes_users_id": chat_id},
+    #            },
+    #            "else": {
+    #                "$cond": {
+    #                    "if": {"likes_users_id": {"$elemMatch": {"$eq": chat_id}}},
+    #                    "then": {
+    #                        "$inc": {"likes": -1},
+    #                        "$pull": {"likes_users_id": chat_id},
+    #                    },
+    #                },
+    #                "$addToSet": {"dislikes_users_id": chat_id},
+    #                "$inc": {"dislikes": 1},
+    #            }
+    #        },
+    #    },
+    #    upsert=True)
 
 
 def get_by_id(id: str):

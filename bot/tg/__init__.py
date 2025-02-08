@@ -1,4 +1,5 @@
 import bson
+from bson import ObjectId
 
 from . import util
 import logging
@@ -51,6 +52,26 @@ async def send_place(update: Update, context: ContextTypes.DEFAULT_TYPE, reply_m
         text=f"{info["name"]}\n{info["description"]}",
         reply_markup=reply_markup,
     )
+    await context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text="Оценить место",
+        reply_markup=InlineKeyboardMarkup([[
+            InlineKeyboardButton(f"Лайк👍{info["likes"]}", callback_data=f"like {info["_id"]} {update.effective_chat.id}"),
+            InlineKeyboardButton(f"Дизлайк👎{info["dislikes"]}", callback_data=f"dislike {info["_id"]} {update.effective_chat.id}")
+        ]]),
+    )
+
+
+async def edit_message_with_place(update: Update, context: ContextTypes.DEFAULT_TYPE, place_id):
+    info = places.collect.find_one({"_id": ObjectId(place_id)})
+    query = update.callback_query
+    await context.bot.edit_message_reply_markup(
+       chat_id=query.message.chat.id,
+       message_id=query.message.message_id,
+       reply_markup=InlineKeyboardMarkup([[
+            InlineKeyboardButton(f"Лайк👍{info["likes"]}", callback_data=f"like {info["_id"]} {update.effective_chat.id}"),
+            InlineKeyboardButton(f"Дизлайк👎{info["dislikes"]}", callback_data=f"dislike {info["_id"]} {update.effective_chat.id}")
+        ]]),)
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
@@ -72,6 +93,14 @@ async def main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         return SEARCHING
     if util.compare_input(update.message.text, "категории"):
         return CHOOSING_CATEGORY
+    if util.compare_input(update.message.text, "случайное место"):
+        context.user_data["results"] = list(places.collect.aggregate([{"$sample": {"size": 10}}]))
+        context.user_data["results_counter"] = 0
+        return await return_to_main_or_next(update, context)
+    if util.compare_input(update.message.text, "популярные"):
+        context.user_data["results"] = list(places.collect.find({}).sort({"likes": -1}))
+        context.user_data["results_counter"] = 0
+        return await return_to_main_or_next(update, context)
     return MAIN
 
 
@@ -124,6 +153,12 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     data = query.data.split()
     if data[0] == "category":
         await show_in_category(update, context, data)
+    elif data[0] == "like":
+        places.give_like(data[1], data[2])
+        await edit_message_with_place(update, context, data[1])
+    elif data[0] == "dislike":
+        places.give_dislike(data[1], data[2])
+        await edit_message_with_place(update, context, data[1])
 
 
 async def show_in_category(update: Update, context: ContextTypes.DEFAULT_TYPE, data):
@@ -141,7 +176,11 @@ async def show_in_category(update: Update, context: ContextTypes.DEFAULT_TYPE, d
 
 
 def configure_application() -> Application:
-    application = Application.builder().token("7608142171:AAGMY-exBpwKtxSIJZLIug2Oa-5YIfztLF8").build()
+    application = (Application.builder()
+                   .token("7608142171:AAGMY-exBpwKtxSIJZLIug2Oa-5YIfztLF8")
+                   .read_timeout(100)
+                   .write_timeout(100)
+                   .build())
 
     conv_handler = ConversationHandler(
         entry_points=[CommandHandler("start", start)],

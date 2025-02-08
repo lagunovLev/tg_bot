@@ -4,7 +4,6 @@ import flask
 from asgiref.wsgi import WsgiToAsgi
 from telegram.ext import CallbackQueryHandler, Application
 
-from tg.run import run_bot
 from app import app
 import main
 import os
@@ -45,5 +44,6 @@ if __name__ == '__main__':
     else:
         th = threading.Thread(target=lambda: app.run(host="0.0.0.0", port=8080))
         th.start()
-        run_bot()
+        application = configure_application()
+        application.run_polling(allowed_updates=Update.ALL_TYPES)
         th.join()

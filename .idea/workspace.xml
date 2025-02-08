@@ -7,11 +7,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="64397f68-1492-462b-943b-feb315d32b89" name="Changes" comment="categories">
+    <list default="true" id="64397f68-1492-462b-943b-feb315d32b89" name="Changes" comment="temp">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bot/database/places.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/database/places.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bot/tg/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/tg/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/tg/run.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -342,7 +343,15 @@
       <option name="project" value="LOCAL" />
       <updated>1738088944451</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="temp">
+      <option name="closed" value="true" />
+      <created>1738680189198</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1738680189198</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -375,6 +384,7 @@
     <MESSAGE value="rewrite" />
     <MESSAGE value="webhook" />
     <MESSAGE value="categories" />
-    <option name="LAST_COMMIT_MESSAGE" value="categories" />
+    <MESSAGE value="temp" />
+    <option name="LAST_COMMIT_MESSAGE" value="temp" />
   </component>
 </project>
