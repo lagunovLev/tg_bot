@@ -6,8 +6,6 @@ from flask import render_template, redirect, url_for, request
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from werkzeug.utils import secure_filename
 from fs import fs
-from api import *
-from api.files import get_file
 
 import config
 from database import users, categories, places
@@ -182,3 +180,11 @@ def update_place():
     place = places.get_by_id(id)
     category_list = categories.get_all()
     return render_template('update_place.html', place=place, category_list=list(category_list))
+
+
+@app.route('/api/get-file/<name>')
+def get_file(name=None):
+    f = fs.get_last_version(name)
+    r = app.response_class(f, direct_passthrough=True, mimetype='application/octet-stream')
+    r.headers.set('Content-Disposition', 'attachment', filename=name)
+    return r

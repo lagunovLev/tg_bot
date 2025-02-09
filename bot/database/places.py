@@ -160,3 +160,38 @@ def get_all(projection=None, args=None):
 
 def delete_by_id(id: str):
     collect.delete_one({"_id": ObjectId(id)})
+
+
+def get_with_photos_id(place_id):
+    return collect.aggregate([
+        {"$match": {
+            "_id": place_id
+        }},
+        {"$lookup": {
+            "from": "fs.files",
+            "localField": "photos_id",
+            "foreignField": "_id",
+            "as": "photos",
+        }},
+    ])
+
+
+def get_with_photos(stage):
+    if stage:
+        return collect.aggregate([
+            stage,
+            {"$lookup": {
+                "from": "fs.files",
+                "localField": "photos_id",
+                "foreignField": "_id",
+                "as": "photos",
+            }},
+        ])
+    return collect.aggregate([
+        {"$lookup": {
+            "from": "fs.files",
+            "localField": "photos_id",
+            "foreignField": "_id",
+            "as": "photos",
+        }},
+    ])

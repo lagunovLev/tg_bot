@@ -1,5 +1,6 @@
 import bson
 from bson import ObjectId
+from flask import url_for
 
 from . import util
 import logging
@@ -16,7 +17,8 @@ from telegram.ext import (
 )
 
 from bot.database import places
-from bot import config
+from bot import config, app
+from bot.fs import fs
 
 # Enable logging
 logging.basicConfig(
@@ -47,6 +49,15 @@ welcome_string = "Здесь вы можете узнать о достопри�
 
 async def send_place(update: Update, context: ContextTypes.DEFAULT_TYPE, reply_markup):
     info = context.user_data["results"][context.user_data["results_counter"]]
+    with app.app_context():
+        for p in info["photos"]:
+            url = url_for('get_file', name=p['filename'])
+            f = fs.get_last_version(p['filename'])
+            print(url)
+            await context.bot.send_photo(
+                chat_id=update.effective_chat.id,
+                photo=f.read(),
+            )
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
         text=f"{info["name"]}\n{info["description"]}",
@@ -94,11 +105,11 @@ async def main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     if util.compare_input(update.message.text, "категории"):
         return CHOOSING_CATEGORY
     if util.compare_input(update.message.text, "случайное место"):
-        context.user_data["results"] = list(places.collect.aggregate([{"$sample": {"size": 10}}]))
+        context.user_data["results"] = list(places.get_with_photos({"$sample": {"size": 10}}))
         context.user_data["results_counter"] = 0
         return await return_to_main_or_next(update, context)
     if util.compare_input(update.message.text, "популярные"):
-        context.user_data["results"] = list(places.collect.find({}).sort({"likes": -1}))
+        context.user_data["results"] = list(places.get_with_photos({"$sort": {"likes": -1}}))
         context.user_data["results_counter"] = 0
         return await return_to_main_or_next(update, context)
     return MAIN
@@ -108,7 +119,7 @@ async def searching(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     if util.compare_input(update.message.text, "отменить"):
         await update.message.reply_text(welcome_string, reply_markup=main_keyboard)
         return MAIN
-    context.user_data["results"] = list(places.collect.find({"$text": {"$search": update.message.text}}))
+    context.user_data["results"] = list(places.get_with_photos({"$match": {"$text": {"$search": update.message.text}}}))
     context.user_data["results_counter"] = 0
     return await return_to_main_or_next(update, context)
 
@@ -165,11 +176,11 @@ async def show_in_category(update: Update, context: ContextTypes.DEFAULT_TYPE, d
     category_id = data[1]
     category = cat.get_by_id(category_id)
     await context.bot.send_message(chat_id=update.effective_chat.id, text=f"Места категории {category['name']}:", reply_markup=next_or_exit_keyboard)
-    res = list(places.collect.aggregate([
+    res = list(places.get_with_photos(
         {"$match": {
             "category_id": bson.ObjectId(category_id),
         }},
-    ]))
+    ))
     context.user_data["results"] = res
     context.user_data["results_counter"] = 0
     return await return_to_main_or_next(update, context)
