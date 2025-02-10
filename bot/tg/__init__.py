@@ -95,6 +95,15 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         {"$setOnInsert": {"chat_id": update.effective_chat.id}},
         True
     )
+
+    #await context.bot.send_venue(
+    #    chat_id=update.effective_chat.id,
+    #    #latitude=50,
+    #    #longitude=40,
+    #    #title="Пиво",
+    #    #address="Улица Пушкина дом колотушкина"
+    #)
+
     return MAIN
 
 
@@ -103,7 +112,11 @@ async def main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         await update.message.reply_text("Введите название места", reply_markup=searching_keyboard)
         return SEARCHING
     if util.compare_input(update.message.text, "категории"):
-        return CHOOSING_CATEGORY
+        categories = cat.get_all()
+        keyboard = [[InlineKeyboardButton(c["name"], callback_data=f"category {c["_id"]}")] for c in categories]
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        await update.message.reply_text("Выберите категорию:", reply_markup=reply_markup)
+        return MAIN
     if util.compare_input(update.message.text, "случайное место"):
         context.user_data["results"] = list(places.get_with_photos({"$sample": {"size": 10}}))
         context.user_data["results_counter"] = 0
@@ -124,12 +137,14 @@ async def searching(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     return await return_to_main_or_next(update, context)
 
 
-async def choosing_category(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    categories = cat.get_all()
-    keyboard = [[InlineKeyboardButton(c["name"], callback_data=f"category {c["_id"]}")] for c in categories]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-
-    await update.message.reply_text("Выберите категорию:", reply_markup=reply_markup)
+#async def choosing_category(update: Update, context: ContextTypes.DEFAULT_TYPE):
+#    categories = cat.get_all()
+#    keyboard = [[InlineKeyboardButton(c["name"], callback_data=f"category {c["_id"]}")] for c in categories]
+#    reply_markup = InlineKeyboardMarkup(keyboard)
+#    logger.info("Печать категорий")
+#
+#    await update.message.reply_text("Выберите категорию:", reply_markup=reply_markup)
+#    return MAIN
 
 
 async def return_to_main_or_next(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -212,12 +227,12 @@ def configure_application() -> Application:
                     next_or_exit,
                 )
             ],
-            CHOOSING_CATEGORY: [
-                MessageHandler(
-                    filters.ALL,
-                    choosing_category,
-                )
-            ]
+            #CHOOSING_CATEGORY: [
+            #    MessageHandler(
+            #        filters.ALL,
+            #        choosing_category,
+            #    )
+            #]
         },
         fallbacks=[],
     )
