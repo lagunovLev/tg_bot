@@ -51,13 +51,12 @@ async def send_place(update: Update, context: ContextTypes.DEFAULT_TYPE, reply_m
     info = context.user_data["results"][context.user_data["results_counter"]]
     with app.app_context():
         for p in info["photos"]:
-            #url = url_for('get_file', name=p['filename'])
-            f = fs.get_last_version(p['filename'])
-            #print(url)
-            await context.bot.send_photo(
-                chat_id=update.effective_chat.id,
-                photo=f.read(),
-            )
+            if p['filename']:
+                f = fs.get_last_version(p['filename'])
+                await context.bot.send_photo(
+                    chat_id=update.effective_chat.id,
+                    photo=f.read(),
+                )
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
         text=f"{info["name"]}\n{info["description"]}",

@@ -7,8 +7,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="64397f68-1492-462b-943b-feb315d32b89" name="Changes" comment="temp">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="64397f68-1492-462b-943b-feb315d32b89" name="Changes" comment="categories are working">
+      <change beforePath="$PROJECT_DIR$/bot/tg/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/tg/__init__.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -355,7 +355,31 @@
       <option name="project" value="LOCAL" />
       <updated>1739034146734</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="images">
+      <option name="closed" value="true" />
+      <created>1739097681124</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1739097681125</updated>
+    </task>
+    <task id="LOCAL-00034" summary="images">
+      <option name="closed" value="true" />
+      <created>1739099641468</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1739099641468</updated>
+    </task>
+    <task id="LOCAL-00035" summary="categories are working">
+      <option name="closed" value="true" />
+      <created>1739202392227</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1739202392227</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -389,6 +413,8 @@
     <MESSAGE value="webhook" />
     <MESSAGE value="categories" />
     <MESSAGE value="temp" />
-    <option name="LAST_COMMIT_MESSAGE" value="temp" />
+    <MESSAGE value="images" />
+    <MESSAGE value="categories are working" />
+    <option name="LAST_COMMIT_MESSAGE" value="categories are working" />
   </component>
 </project>
