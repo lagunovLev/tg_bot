@@ -50,13 +50,29 @@ welcome_string = "Здесь вы можете узнать о достопри�
 async def send_place(update: Update, context: ContextTypes.DEFAULT_TYPE, reply_markup):
     info = context.user_data["results"][context.user_data["results_counter"]]
     with app.app_context():
-        for p in info["photos"]:
-            if p['filename']:
-                f = fs.get_last_version(p['filename'])
+        if "tg_file_ids" in info:
+            for p in info["tg_file_ids"]:
                 await context.bot.send_photo(
                     chat_id=update.effective_chat.id,
-                    photo=f.read(),
+                    photo=p,
                 )
+        else:
+            for p in info["photos"]:
+                if p['filename']:
+                    f = fs.get_last_version(p['filename'])
+                    message = await context.bot.send_photo(
+                        chat_id=update.effective_chat.id,
+                        photo=f.read(),
+                    )
+                    file_id = message.photo[-1].file_id
+                    places.collect.update_one(
+                        {'_id': info["_id"]},
+                        {
+                            #'$setOnInsert': {'tg_file_ids': []},
+                            '$push': {'tg_file_ids': file_id}
+                        },
+                        upsert=True
+                    )
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
         text=f"{info["name"]}\n{info["description"]}",

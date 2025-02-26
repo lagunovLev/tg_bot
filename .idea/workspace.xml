@@ -8,6 +8,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="64397f68-1492-462b-943b-feb315d32b89" name="Changes" comment="categories are working">
+      <change afterPath="$PROJECT_DIR$/bot/scrabbing/scrabbing2gis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/bot/requirements.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bot/tg/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/tg/__init__.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
