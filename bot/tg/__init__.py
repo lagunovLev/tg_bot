@@ -83,8 +83,21 @@ async def send_place(update: Update, context: ContextTypes.DEFAULT_TYPE, reply_m
         text="Оценить место",
         reply_markup=InlineKeyboardMarkup([[
             InlineKeyboardButton(f"Лайк👍{info["likes"]}", callback_data=f"like {info["_id"]} {update.effective_chat.id}"),
-            InlineKeyboardButton(f"Дизлайк👎{info["dislikes"]}", callback_data=f"dislike {info["_id"]} {update.effective_chat.id}")
-        ]]),
+            InlineKeyboardButton(f"Дизлайк👎{info["dislikes"]}", callback_data=f"dislike {info["_id"]} {update.effective_chat.id}"),
+        ], [
+            InlineKeyboardButton(f"Посмотреть отзывы",
+                                 callback_data=f"reviews {info["_id"]} {update.effective_chat.id}")
+        ] if "reviews" in info and info["reviews"] else []]),
+    )
+
+
+async def send_review(update: Update, context: ContextTypes.DEFAULT_TYPE, reply_markup):
+    info = context.user_data["results"][context.user_data["results_counter"]]
+    text = info["text"]
+    await context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text=text,
+        reply_markup=reply_markup,
     )
 
 
@@ -101,6 +114,7 @@ async def edit_message_with_place(update: Update, context: ContextTypes.DEFAULT_
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    context.user_data.clear()
     await update.message.reply_text(
         welcome_string,
         reply_markup=main_keyboard,
@@ -133,10 +147,12 @@ async def main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         await update.message.reply_text("Выберите категорию:", reply_markup=reply_markup)
         return MAIN
     if util.compare_input(update.message.text, "случайное место"):
+        context.user_data["function"] = send_place
         context.user_data["results"] = list(places.get_with_photos({"$sample": {"size": 10}}))
         context.user_data["results_counter"] = 0
         return await return_to_main_or_next(update, context)
     if util.compare_input(update.message.text, "популярные"):
+        context.user_data["function"] = send_place
         context.user_data["results"] = list(places.get_with_photos({"$sort": {"likes": -1}}))
         context.user_data["results_counter"] = 0
         return await return_to_main_or_next(update, context)
@@ -147,6 +163,7 @@ async def searching(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     if util.compare_input(update.message.text, "отменить"):
         await update.message.reply_text(welcome_string, reply_markup=main_keyboard)
         return MAIN
+    context.user_data["function"] = send_place
     context.user_data["results"] = list(places.get_with_photos({"$match": {"$text": {"$search": update.message.text}}}))
     context.user_data["results_counter"] = 0
     return await return_to_main_or_next(update, context)
@@ -167,9 +184,9 @@ async def return_to_main_or_next(update: Update, context: ContextTypes.DEFAULT_T
         await context.bot.send_message(chat_id=update.effective_chat.id, text="Ничего не нашлось", reply_markup=main_keyboard)
         return MAIN
     if len(context.user_data["results"]) == 1:
-        await send_place(update, context, main_keyboard)
+        await context.user_data["function"](update, context, main_keyboard)
         return MAIN
-    await send_place(update, context, next_or_exit_keyboard)
+    await context.user_data["function"](update, context, next_or_exit_keyboard)
     context.user_data["results_counter"] += 1
     return NEXT_OR_EXIT
 
@@ -180,9 +197,9 @@ async def next_or_exit(update: Update, context: ContextTypes.DEFAULT_TYPE) -> in
         return MAIN
     if util.compare_input(update.message.text, "следующее"):
         if context.user_data["results_counter"] >= len(context.user_data["results"]) - 1:
-            await send_place(update, context, main_keyboard)
+            await context.user_data["function"](update, context, main_keyboard)
             return MAIN
-        await send_place(update, context, next_or_exit_keyboard)
+        await context.user_data["function"](update, context, next_or_exit_keyboard)
         context.user_data["results_counter"] += 1
         return NEXT_OR_EXIT
 
@@ -200,6 +217,8 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     elif data[0] == "dislike":
         places.give_dislike(data[1], data[2])
         await edit_message_with_place(update, context, data[1])
+    elif data[0] == "reviews":
+        await show_reviews(update, context, data)
 
 
 async def show_in_category(update: Update, context: ContextTypes.DEFAULT_TYPE, data):
@@ -211,6 +230,17 @@ async def show_in_category(update: Update, context: ContextTypes.DEFAULT_TYPE, d
             "category_id": bson.ObjectId(category_id),
         }},
     ))
+    context.user_data["function"] = send_place
+    context.user_data["results"] = res
+    context.user_data["results_counter"] = 0
+    return await return_to_main_or_next(update, context)
+
+
+async def show_reviews(update: Update, context: ContextTypes.DEFAULT_TYPE, data):
+    place_id = data[1]
+    await context.bot.send_message(chat_id=update.effective_chat.id, text=f"Отзывы:", reply_markup=next_or_exit_keyboard)
+    res = places.get_by_id(place_id)["reviews"]
+    context.user_data["function"] = send_review
     context.user_data["results"] = res
     context.user_data["results_counter"] = 0
     return await return_to_main_or_next(update, context)
@@ -254,4 +284,5 @@ def configure_application() -> Application:
 
     application.add_handler(conv_handler)
     application.add_handler(CallbackQueryHandler(button_handler))
+    application.add_handler(CommandHandler('start', start))
     return application

@@ -7,10 +7,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="64397f68-1492-462b-943b-feb315d32b89" name="Changes" comment="categories are working">
-      <change afterPath="$PROJECT_DIR$/bot/scrabbing/scrabbing2gis.py" afterDir="false" />
+    <list default="true" id="64397f68-1492-462b-943b-feb315d32b89" name="Changes" comment="file_id">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/database/places.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/database/places.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bot/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/bot/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/scrabbing/scrabbing2gis.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/scrabbing/scrabbing2gis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/templates/admin.html" beforeDir="false" afterPath="$PROJECT_DIR$/bot/templates/admin.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/templates/update_place.html" beforeDir="false" afterPath="$PROJECT_DIR$/bot/templates/update_place.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bot/tg/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/tg/__init__.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -45,18 +49,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;Python.__init__.executor&quot;: &quot;Run&quot;,
-    &quot;Python.app.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;production&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;aDefault&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "DefaultHtmlFileTemplate": "HTML File",
+    "Python.__init__.executor": "Run",
+    "Python.app.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.scrabbing2gis.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "production",
+    "run.code.analysis.last.selected.profile": "aDefault",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "settings.editor.splitter.proportion": "0.28134558"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\projects\python\flask-bot2\bot" />
@@ -382,7 +389,15 @@
       <option name="project" value="LOCAL" />
       <updated>1739202392227</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="file_id">
+      <option name="closed" value="true" />
+      <created>1740565071737</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1740565071737</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -418,6 +433,7 @@
     <MESSAGE value="temp" />
     <MESSAGE value="images" />
     <MESSAGE value="categories are working" />
-    <option name="LAST_COMMIT_MESSAGE" value="categories are working" />
+    <MESSAGE value="file_id" />
+    <option name="LAST_COMMIT_MESSAGE" value="file_id" />
   </component>
 </project>

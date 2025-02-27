@@ -7,23 +7,29 @@ from database import categories
 collect: collection = db_client[config.db_name]["places"]
 
 
-def add(name, photos_id, description, category_name):
+def add(name, photos_id, description, category_name, reviews=None):
     collect.insert_one({"name": name,
                         "photos_id": photos_id,
                         "description": description,
                         "category_id": categories.find_by_name(category_name)["_id"],
                         "likes_users_id": [],
                         "dislikes_users_id": [],
+                        "reviews": reviews,
                         "likes": 0,
                         "dislikes": 0})
 
 
-def update(place_id, name, photos_id, description, category_name):
+def update(place_id, name, photos_id, description, category_name, reviews=None):
+    print(reviews)
     collect.update_one({"_id": ObjectId(place_id)},
-                       {"name": name,
-                        "photos_id": photos_id,
-                        "description": description,
-                        "category_id": categories.find_by_name(category_name)["_id"]})
+                       {"$set": {"reviews": reviews,
+                                 "name": name,
+                                 "photos_id": photos_id,
+                                 "description": description,
+                                 "category_id": categories.find_by_name(category_name)["_id"]
+                                 }})
+    #collect.update_one({"_id": ObjectId(place_id)},
+    #                   )
 
 
 def give_like(place_id, chat_id):

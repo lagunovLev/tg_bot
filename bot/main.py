@@ -10,6 +10,7 @@ from fs import fs
 import config
 from database import users, categories, places
 from app import app
+from scrabbing import scrabbing2gis
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -128,6 +129,7 @@ def add_place():
     name = request.form['name']
     description = request.form['description']
     category_name = request.form['category']
+    parsing_link = request.form['2gis']
     files = request.files.getlist('photos')
     photos_id = []
     for i in files:
@@ -135,7 +137,13 @@ def add_place():
         filename = secure_filename(i.filename)
         id = fs.put(contents, filename=filename)
         photos_id.append(id)
-    places.add(name, photos_id, description, category_name)
+
+    reviews = None
+    if parsing_link:
+        parsed_data = scrabbing2gis.get_data(parsing_link)
+        reviews = parsed_data["reviews"]
+
+    places.add(name, photos_id, description, category_name, reviews=reviews)
     return redirect(url_for('admin'))
 
 
@@ -145,6 +153,7 @@ def insert_place():
     place_id = request.args.get('id')
     name = request.form['name']
     description = request.form['description']
+    parsing_link = request.form['2gis']
     category_name = request.form['category']
     files = request.files.getlist('photos')
     photos_id = []
@@ -153,7 +162,13 @@ def insert_place():
         filename = secure_filename(i.filename)
         id = fs.put(contents, filename=filename)
         photos_id.append(id)
-    places.update(place_id, name, photos_id, description, category_name)
+
+    reviews = None
+    if parsing_link:
+        parsed_data = scrabbing2gis.get_data(parsing_link)
+        reviews = parsed_data["reviews"]
+
+    places.update(place_id, name, photos_id, description, category_name, reviews=reviews)
     return redirect(url_for('admin'))
 
 
