@@ -210,7 +210,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     #await query.edit_message_text(text=f"Selected option: {query.data}")
     data = query.data.split()
     if data[0] == "category":
-        await show_in_category(update, context, data)
+        return await show_in_category(update, context, data)
     elif data[0] == "like":
         places.give_like(data[1], data[2])
         await edit_message_with_place(update, context, data[1])
@@ -218,7 +218,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
         places.give_dislike(data[1], data[2])
         await edit_message_with_place(update, context, data[1])
     elif data[0] == "reviews":
-        await show_reviews(update, context, data)
+        return await show_reviews(update, context, data)
 
 
 async def show_in_category(update: Update, context: ContextTypes.DEFAULT_TYPE, data):
@@ -230,6 +230,7 @@ async def show_in_category(update: Update, context: ContextTypes.DEFAULT_TYPE, d
             "category_id": bson.ObjectId(category_id),
         }},
     ))
+    print(res)
     context.user_data["function"] = send_place
     context.user_data["results"] = res
     context.user_data["results_counter"] = 0
@@ -260,17 +261,20 @@ def configure_application() -> Application:
                 MessageHandler(
                     filters.ALL, main_menu
                 ),
+                CallbackQueryHandler(button_handler)
             ],
             SEARCHING: [
                 MessageHandler(
                     filters.ALL, searching
-                )
+                ),
+                CallbackQueryHandler(button_handler)
             ],
             NEXT_OR_EXIT: [
                 MessageHandler(
                     filters.ALL,
                     next_or_exit,
-                )
+                ),
+                CallbackQueryHandler(button_handler)
             ],
             #CHOOSING_CATEGORY: [
             #    MessageHandler(
@@ -283,6 +287,7 @@ def configure_application() -> Application:
     )
 
     application.add_handler(conv_handler)
-    application.add_handler(CallbackQueryHandler(button_handler))
+    #application.add_handler(CallbackQueryHandler(button_handler))
+    #CallbackQueryHandler(button_handler)
     application.add_handler(CommandHandler('start', start))
     return application
