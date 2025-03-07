@@ -7,7 +7,7 @@ from telegram.ext import CallbackQueryHandler, Application
 from app import app
 import main
 import os
-import config
+import env_variables
 from tg import *
 import asyncio
 import uvicorn
@@ -16,12 +16,12 @@ import uvicorn
 async def run():
     application = configure_application()
 
-    @app.route("/" + config.secret_key, methods=['POST'])
+    @app.route("/" + env_variables.secret_key, methods=['POST'])
     async def webhook():
         await application.update_queue.put(Update.de_json(data=flask.request.json, bot=application.bot))
         return '!', 200
 
-    await application.bot.set_webhook(url=f"{config.url}/{config.secret_key}", allowed_updates=Update.ALL_TYPES)
+    await application.bot.set_webhook(url=f"{env_variables.url}/{env_variables.secret_key}", allowed_updates=Update.ALL_TYPES)
 
     webserver = uvicorn.Server(
         config=uvicorn.Config(

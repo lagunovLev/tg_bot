@@ -7,10 +7,10 @@ from flask_login import LoginManager, login_user, login_required, logout_user, c
 from werkzeug.utils import secure_filename
 from fs import fs
 
-import config
+import env_variables
 from database import users, categories, places
 from app import app
-from scrabbing import scrabbing2gis
+from scraping import scraping2gis
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -140,7 +140,7 @@ def add_place():
 
     reviews = None
     if parsing_link:
-        parsed_data = scrabbing2gis.get_data(parsing_link)
+        parsed_data = scraping2gis.get_data(parsing_link)
         reviews = parsed_data["reviews"]
 
     places.add(name, photos_id, description, category_name, reviews=reviews)
@@ -165,7 +165,7 @@ def insert_place():
 
     reviews = None
     if parsing_link:
-        parsed_data = scrabbing2gis.get_data(parsing_link)
+        parsed_data = scraping2gis.get_data(parsing_link)
         reviews = parsed_data["reviews"]
 
     places.update(place_id, name, photos_id, description, category_name, reviews=reviews)

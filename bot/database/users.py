@@ -1,8 +1,8 @@
-import config
+import env_variables
 from database import db_client
 from pymongo import collection
 
-collect: collection = db_client[config.db_name]["users"]
+collect: collection = db_client[env_variables.db_name]["users"]
 
 
 def find_by_username(username: str):

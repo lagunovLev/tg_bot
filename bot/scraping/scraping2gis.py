@@ -67,5 +67,3 @@ def get_data(url):
         #"images": get_images(img_url)
     }
 
-
-#print(get_data("https://2gis.ru/izhevsk/inside/5770872677735444/firm/5770765303552680"))

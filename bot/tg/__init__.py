@@ -17,14 +17,12 @@ from telegram.ext import (
 )
 
 from bot.database import places
-from bot import config, app
+from bot import env_variables, app
 from bot.fs import fs
 
-# Enable logging
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
 )
-# set higher logging level for httpx to avoid all GET and POST requests being logged
 logging.getLogger("httpx").setLevel(logging.WARNING)
 
 logger = logging.getLogger(__name__)
@@ -68,7 +66,6 @@ async def send_place(update: Update, context: ContextTypes.DEFAULT_TYPE, reply_m
                     places.collect.update_one(
                         {'_id': info["_id"]},
                         {
-                            #'$setOnInsert': {'tg_file_ids': []},
                             '$push': {'tg_file_ids': file_id}
                         },
                         upsert=True
@@ -119,19 +116,11 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         welcome_string,
         reply_markup=main_keyboard,
     )
-    db_client[config.db_name]["tg_users"].update_one(
+    db_client[env_variables.db_name]["tg_users"].update_one(
         {"chat_id": update.effective_chat.id},
         {"$setOnInsert": {"chat_id": update.effective_chat.id}},
         True
     )
-
-    #await context.bot.send_venue(
-    #    chat_id=update.effective_chat.id,
-    #    #latitude=50,
-    #    #longitude=40,
-    #    #title="Пиво",
-    #    #address="Улица Пушкина дом колотушкина"
-    #)
 
     return MAIN
 
@@ -169,16 +158,6 @@ async def searching(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     return await return_to_main_or_next(update, context)
 
 
-#async def choosing_category(update: Update, context: ContextTypes.DEFAULT_TYPE):
-#    categories = cat.get_all()
-#    keyboard = [[InlineKeyboardButton(c["name"], callback_data=f"category {c["_id"]}")] for c in categories]
-#    reply_markup = InlineKeyboardMarkup(keyboard)
-#    logger.info("Печать категорий")
-#
-#    await update.message.reply_text("Выберите категорию:", reply_markup=reply_markup)
-#    return MAIN
-
-
 async def return_to_main_or_next(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not context.user_data["results"]:
         await context.bot.send_message(chat_id=update.effective_chat.id, text="Ничего не нашлось", reply_markup=main_keyboard)
@@ -207,7 +186,6 @@ async def next_or_exit(update: Update, context: ContextTypes.DEFAULT_TYPE) -> in
 async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     query = update.callback_query
     await query.answer()
-    #await query.edit_message_text(text=f"Selected option: {query.data}")
     data = query.data.split()
     if data[0] == "category":
         return await show_in_category(update, context, data)
@@ -276,18 +254,10 @@ def configure_application() -> Application:
                 ),
                 CallbackQueryHandler(button_handler)
             ],
-            #CHOOSING_CATEGORY: [
-            #    MessageHandler(
-            #        filters.ALL,
-            #        choosing_category,
-            #    )
-            #]
         },
         fallbacks=[],
     )
 
     application.add_handler(conv_handler)
-    #application.add_handler(CallbackQueryHandler(button_handler))
-    #CallbackQueryHandler(button_handler)
     application.add_handler(CommandHandler('start', start))
     return application

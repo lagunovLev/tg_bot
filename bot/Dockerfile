@@ -10,4 +10,3 @@ COPY . /bot
 
 EXPOSE 8080
 CMD ["python", "__init__.py"]
-#CMD ["gunicorn", "-b", "0.0.0.0:8080", "main"]

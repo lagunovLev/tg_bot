@@ -1,9 +1,9 @@
-import config
+import env_variables
 from database import db_client
 from pymongo import collection
 from bson.objectid import ObjectId
 
-collect: collection = db_client[config.db_name]["categories"]
+collect: collection = db_client[env_variables.db_name]["categories"]
 
 
 def add(name):

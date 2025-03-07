@@ -7,9 +7,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="64397f68-1492-462b-943b-feb315d32b89" name="Changes" comment="вщвудфд">
+    <list default="true" id="64397f68-1492-462b-943b-feb315d32b89" name="Changes" comment="fix">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/.env" beforeDir="false" afterPath="$PROJECT_DIR$/bot/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/bot/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/api/categories.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/api/files.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/api/places.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/env_variables.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/database/categories.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/database/categories.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/database/files.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/database/files.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/database/places.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/database/places.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/database/users.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/database/users.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/fs.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/fs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/manage.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/scrabbing/scrabbing2gis.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/scraping/scraping2gis.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bot/tg/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/tg/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,21 +60,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "DefaultHtmlFileTemplate": "HTML File",
-    "Python.__init__.executor": "Run",
-    "Python.app.executor": "Run",
-    "Python.main.executor": "Run",
-    "Python.scrabbing2gis.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "production",
-    "run.code.analysis.last.selected.profile": "aDefault",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
-    "settings.editor.splitter.proportion": "0.28134558"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;Python.__init__.executor&quot;: &quot;Run&quot;,
+    &quot;Python.app.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.scrabbing2gis.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;production&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;aDefault&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
+    &quot;settings.editor.splitter.proportion&quot;: &quot;0.28134558&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\projects\python\flask-bot2\bot" />
@@ -399,7 +416,15 @@
       <option name="project" value="LOCAL" />
       <updated>1740660697502</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="fix">
+      <option name="closed" value="true" />
+      <created>1740911065762</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1740911065762</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -437,17 +462,7 @@
     <MESSAGE value="categories are working" />
     <MESSAGE value="file_id" />
     <MESSAGE value="вщвудфд" />
-    <option name="LAST_COMMIT_MESSAGE" value="вщвудфд" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/bot/tg/__init__.py</url>
-          <line>182</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix" />
   </component>
 </project>
